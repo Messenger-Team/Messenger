@@ -16,17 +16,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MessagesEntityRepository extends JpaRepository<MessagesEntity, String> {
 
-    /*@Query("select m from MessagesEntity m "
+    @Query("select m from MessagesEntity m "
             + "where m.chatsByChatId = :chat "
             + "and m.messagesStatus <> 'DELETED' "
             + "and m.createdAt > :iterator "
-            + "order by m.createdAt asc")*/
+            + "order by m.createdAt asc")
     List<MessagesEntity> findMessagesByLimitFromCursor(
             @Param("chat") ChatsEntity chat, @Param("iterator") Timestamp iterator, Pageable pageable);
 
-    /*@Query("select m from MessagesEntity m "
+    @Query("select m from MessagesEntity m "
             + "where m.chatsByChatId = :chat "
             + "and m.messagesStatus <> 'DELETED' "
-            + "order by m.createdAt asc")*/
+            + "order by m.createdAt asc")
     List<MessagesEntity> findMessagesByLimit(@Param("chat") ChatsEntity chat, Pageable pageable);
 }

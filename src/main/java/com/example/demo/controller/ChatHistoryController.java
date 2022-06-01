@@ -20,6 +20,7 @@ import com.example.demo.dto.SearchMessageDto;
 import com.example.demo.dto.response.GetHistoryResponse;
 import com.example.demo.dto.response.GetTaskResponse;
 import com.example.demo.dto.response.HistoryGetMessagesResponse;
+import com.example.demo.service.SearchMessagesService;
 
 @RestController
 @AllArgsConstructor

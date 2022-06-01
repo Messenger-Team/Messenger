@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Entity
 @Setter
-@Table(name = "chats_users", schema = "public", catalog = "postgres")
+@Table(name = "chats_users")
 public class ChatsUsersEntity {
 
     private Long chatsUsersId;

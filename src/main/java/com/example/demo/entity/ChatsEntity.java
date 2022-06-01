@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "chats", schema = "public", catalog = "postgres")
+@Table(name = "chats")
 public class ChatsEntity {
 
     private String chatId;

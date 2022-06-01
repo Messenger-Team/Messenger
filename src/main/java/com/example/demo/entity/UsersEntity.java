@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users", schema = "public", catalog = "postgres")
+@Table(name = "users")
 public class UsersEntity {
 
     private String userId;

@@ -170,11 +170,11 @@ public class ChatServiceImpl implements ChatService {
         chatsEntity.setChatName(createChatDto.getChatName());
         chatsEntity.setChatId(chatId);
         chatsEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
+        ChatsEntity chatsEntityCreated = chatsEntityRepository.save(chatsEntity);
+        ChatsUsersEntity usersEntityFirst = AddUserToChat(chatsEntityCreated, createChatDto.getUserNameFirst());
+        ChatsUsersEntity usersEntitySecond = AddUserToChat(chatsEntityCreated, createChatDto.getUserNameSecond());
 
-        ChatsUsersEntity usersEntityFirst = AddUserToChat(chatsEntity, createChatDto.getUserNameFirst());
-        ChatsUsersEntity usersEntitySecond = AddUserToChat(chatsEntity, createChatDto.getUserNameSecond());
-
-        return new ChatCreateWithTwoUsersResponse(chatsEntity.getChatId(), usersEntityFirst.getUsersByUserId().getUserId(), usersEntitySecond.getUsersByUserId().getUserId());
+        return new ChatCreateWithTwoUsersResponse(chatsEntityCreated.getChatId(), usersEntityFirst.getUsersByUserId().getUserId(), usersEntitySecond.getUsersByUserId().getUserId());
     }
 
     private ChatsUsersEntity AddUserToChat(ChatsEntity chatsEntity, String userName){

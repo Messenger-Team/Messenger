@@ -112,8 +112,8 @@ public class ChatServiceImpl implements ChatService {
 
         // cache after
         List<Message> messages = messagesEntities.stream()
-                .map(m -> new Message(//m.getMessage()))
-                        "id: " + m.getMessageId() + " " + m.getMessage() + " createdAt: " + m.getCreatedAt()))
+                .map(m -> new Message(
+                         m.getMessageId() , m.getMessage() , m.getCreatedAt().toString()))
                 .collect(Collectors.toList());
 
         Cursor iterator = null;

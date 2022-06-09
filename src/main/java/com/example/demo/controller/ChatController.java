@@ -45,9 +45,17 @@ public class ChatController {
         return new ResponseEntity<>(chatService.createChatWithName(createChatDto), HttpStatus.CREATED);
     }
 
-    @PostMapping("/twoUsers")
+    /**
+     * POST /v1/chats/default создать чат с именем chat_name и добавить юзеров с именами user_name_first и user_name_second
+     *
+     * @param createChatWithTwoUsersDto (required)
+     * @return action was completed successfully (status code 201) or * &#x60;bad-parameters&#x60; -
+     * неправильный формат входных параметров  (status code 400) or unexpected server error (status
+     * code 200)
+     */
+    @PostMapping("/default")
     public ResponseEntity<ChatCreateWithTwoUsersResponse> createChatWithNameAnd2Users(
-            @RequestBody @Valid CreateChatWithTwoUsers createChatWithTwoUsersDto) {
+            @RequestBody @Valid CreateChatWithTwoUsersDto createChatWithTwoUsersDto) {
         return new ResponseEntity<>(chatService.createChatWithNameAndTwoUsers(createChatWithTwoUsersDto), HttpStatus.CREATED);
     }
     /**

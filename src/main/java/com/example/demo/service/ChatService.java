@@ -5,7 +5,7 @@ import com.example.demo.dto.response.*;
 
 public interface ChatService {
 
-    ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsers createChatDto);
+    ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsersDto createChatDto);
 
     ChatCreateResponse createChatWithName(CreateChatDto createChatDto);
 

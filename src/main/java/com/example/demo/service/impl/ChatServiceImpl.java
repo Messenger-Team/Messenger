@@ -164,7 +164,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsers createChatDto){
+    public ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsersDto createChatDto){
         String chatId = UUID.randomUUID().toString();
         ChatsEntity chatsEntity = new ChatsEntity();
         chatsEntity.setChatName(createChatDto.getChatName());

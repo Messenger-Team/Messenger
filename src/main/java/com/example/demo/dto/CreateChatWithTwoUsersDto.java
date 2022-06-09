@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateChatWithTwoUsers {
+public class CreateChatWithTwoUsersDto {
     @JsonProperty("chat_name")
     @Size(max=255)
     @NotNull

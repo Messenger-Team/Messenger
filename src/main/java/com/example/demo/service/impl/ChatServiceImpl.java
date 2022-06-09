@@ -7,20 +7,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.example.demo.dto.*;
+import com.example.demo.dto.response.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.example.demo.cache.ChatIdKeyFromCache;
-import com.example.demo.dto.response.ChatCreateResponse;
-import com.example.demo.dto.response.ChatGetMessagesResponse;
-import com.example.demo.dto.response.ChatJoinResponse;
-import com.example.demo.dto.response.ChatSendMessageResponse;
-import com.example.demo.dto.CreateChatDto;
-import com.example.demo.dto.Cursor;
-import com.example.demo.dto.Message;
-import com.example.demo.dto.MessageDto;
-import com.example.demo.dto.UserNameDto;
 import com.example.demo.entity.ChatsEntity;
 import com.example.demo.entity.ChatsUsersEntity;
 import com.example.demo.entity.MessagesEntity;
@@ -167,5 +161,41 @@ public class ChatServiceImpl implements ChatService {
             throw new NotFoundCrudException("No user found with id " + userId);
         }
         return user.get();
+    }
+
+    @Override
+    public ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsers createChatDto){
+        String chatId = UUID.randomUUID().toString();
+        ChatsEntity chatsEntity = new ChatsEntity();
+        chatsEntity.setChatName(createChatDto.getChatName());
+        chatsEntity.setChatId(chatId);
+        chatsEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
+
+        ChatsUsersEntity usersEntityFirst = AddUserToChat(chatsEntity, createChatDto.getUserNameFirst());
+        ChatsUsersEntity usersEntitySecond = AddUserToChat(chatsEntity, createChatDto.getUserNameSecond());
+
+        return new ChatCreateWithTwoUsersResponse(chatsEntity.getChatId(), usersEntityFirst.getUsersByUserId().getUserId(), usersEntitySecond.getUsersByUserId().getUserId());
+    }
+
+    private ChatsUsersEntity AddUserToChat(ChatsEntity chatsEntity, String userName){
+        UsersEntity user;
+        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserName(userName);
+        if (userEntity.isEmpty()) {
+            user = new UsersEntity();
+            user.setUserName(userName);
+            user.setUserId(UUID.randomUUID().toString());
+            user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
+            user.setUserTimezone(DEFAULT_TIMEZONE);
+            user = usersEntityRepository.save(user);
+        } else {
+            user = userEntity.get();
+        }
+
+        ChatsUsersEntity chatsUsersFirstEntity = new ChatsUsersEntity();
+        chatsUsersFirstEntity.setUsersByUserId(user);
+        chatsUsersFirstEntity.setChatsByChatId(chatsEntity);
+        chatsUsersFirstEntity.setIsPresent(true);
+
+        return chatsUsersEntityRepository.save(chatsUsersFirstEntity);
     }
 }

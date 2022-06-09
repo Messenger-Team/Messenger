@@ -5,6 +5,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import com.example.demo.dto.*;
+import com.example.demo.dto.response.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,14 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.dto.response.ChatCreateResponse;
-import com.example.demo.dto.response.ChatGetMessagesResponse;
-import com.example.demo.dto.response.ChatJoinResponse;
-import com.example.demo.dto.response.ChatSendMessageResponse;
-import com.example.demo.dto.CreateChatDto;
-import com.example.demo.dto.Cursor;
-import com.example.demo.dto.MessageDto;
-import com.example.demo.dto.UserNameDto;
 import com.example.demo.service.ChatService;
 
 @RestController
@@ -50,6 +45,19 @@ public class ChatController {
         return new ResponseEntity<>(chatService.createChatWithName(createChatDto), HttpStatus.CREATED);
     }
 
+    /**
+     * POST /v1/chats/default создать чат с именем chat_name и добавить юзеров с именами user_name_first и user_name_second
+     *
+     * @param createChatWithTwoUsersDto (required)
+     * @return action was completed successfully (status code 201) or * &#x60;bad-parameters&#x60; -
+     * неправильный формат входных параметров  (status code 400) or unexpected server error (status
+     * code 200)
+     */
+    @PostMapping("/default")
+    public ResponseEntity<ChatCreateWithTwoUsersResponse> createChatWithNameAnd2Users(
+            @RequestBody @Valid CreateChatWithTwoUsersDto createChatWithTwoUsersDto) {
+        return new ResponseEntity<>(chatService.createChatWithNameAndTwoUsers(createChatWithTwoUsersDto), HttpStatus.CREATED);
+    }
     /**
      * POST /v1/chats/{chat_id}/users
      * добавить пользователя user_name в чат chat_id

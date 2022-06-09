@@ -1,15 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.response.ChatCreateResponse;
-import com.example.demo.dto.response.ChatGetMessagesResponse;
-import com.example.demo.dto.response.ChatJoinResponse;
-import com.example.demo.dto.response.ChatSendMessageResponse;
-import com.example.demo.dto.CreateChatDto;
-import com.example.demo.dto.Cursor;
-import com.example.demo.dto.MessageDto;
-import com.example.demo.dto.UserNameDto;
+import com.example.demo.dto.*;
+import com.example.demo.dto.response.*;
 
 public interface ChatService {
+
+    ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsersDto createChatDto);
 
     ChatCreateResponse createChatWithName(CreateChatDto createChatDto);
 

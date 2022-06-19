@@ -113,7 +113,7 @@ public class ChatServiceImpl implements ChatService {
         // cache after
         List<Message> messages = messagesEntities.stream()
                 .map(m -> new Message(
-                         m.getMessageId() , m.getMessage() , m.getCreatedAt().toString()))
+                         m.getUserId() , m.getMessage() , m.getCreatedAt().toString()))
                 .collect(Collectors.toList());
 
         Cursor iterator = null;
@@ -140,6 +140,7 @@ public class ChatServiceImpl implements ChatService {
         messagesEntity.setMessagesStatus(MessagesStatus.CREATED.name());
         messagesEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
         messagesEntity.setMessageId(UUID.randomUUID().toString());
+        messagesEntity.setUserId(userId);
 
         MessagesEntity createdMessage = messagesEntityRepository.save(messagesEntity);
 

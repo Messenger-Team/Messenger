@@ -19,6 +19,7 @@ public class MessagesEntity {
     private String message;
     private Timestamp createdAt;
     private String messagesStatus;
+    private String userId;
     private UsersEntity usersBySenderId;
     private ChatsEntity chatsByChatId;
 
@@ -39,6 +40,10 @@ public class MessagesEntity {
     public Timestamp getCreatedAt() {
         return createdAt;
     }
+
+    @Basic
+    @Column(name = "user_id")
+    public String getUserId() { return  userId;}
 
     @Basic
     @Column(name = "messages_status")

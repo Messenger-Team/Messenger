@@ -103,7 +103,7 @@ public class ChatController {
      *
      * @param chatId  (required)
      * @param userId  (required)
-     * @param messageDto  (required)
+     * @param text  (required)
      * @return action was completed successfully (status code 201)
      *         or * &#x60;bad-parameters&#x60; - неправильный формат входных параметров  (status code 400)
      *         or * &#x60;chat-not-found&#x60; - указанный чат не существует * &#x60;user-not-found&#x60; - в указанном чате нет указанного пользователя  (status code 404)
@@ -113,7 +113,7 @@ public class ChatController {
     public ResponseEntity<ChatSendMessageResponse> sendMessageToChat(
             @PathVariable("chat_id") String chatId,
             @RequestParam(value = "user_id") @NotNull @Valid String userId,
-            @RequestBody @Valid MessageDto messageDto) {
-        return new ResponseEntity<>(chatService.sendMessageToChat(chatId, userId, messageDto), HttpStatus.CREATED);
+            @RequestParam(value = "text") @NotNull @Valid String text) {
+        return new ResponseEntity<>(chatService.sendMessageToChat(chatId, userId, text), HttpStatus.CREATED);
     }
 }

@@ -45,8 +45,8 @@ public class MessengerApplicationTests {
         MessageDto messageDto1 = new MessageDto(new Message(ID, MESSAGE_1, ""));
         MessageDto messageDto2 = new MessageDto(new Message(ID, MESSAGE_2, ""));
 
-        service.sendMessageToChat(chatId, firstUserId, messageDto1);
-        service.sendMessageToChat(chatId, secondUserId, messageDto2);
+        service.sendMessageToChat(chatId, firstUserId, MESSAGE_1);
+        service.sendMessageToChat(chatId, secondUserId, MESSAGE_2);
 
         ChatGetMessagesResponse chatGetMessagesResponse = service.getMessagesByChatId(chatId, 100, "");
         String[] sentMessages = new String[]{MESSAGE_1, MESSAGE_2};

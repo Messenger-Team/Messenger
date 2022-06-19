@@ -13,5 +13,5 @@ public interface ChatService {
 
     ChatGetMessagesResponse getMessagesByChatId(String chatId, Integer limit, String from);
 
-    ChatSendMessageResponse sendMessageToChat(String chatId, String userId, MessageDto messageDto);
+    ChatSendMessageResponse sendMessageToChat(String chatId, String userId, String text);
 }

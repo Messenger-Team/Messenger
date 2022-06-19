@@ -129,12 +129,12 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public ChatSendMessageResponse sendMessageToChat(String chatId, String userId,
-                                                     MessageDto messageDto) {
+                                                     String text) {
         UsersEntity user = findUserByUserId(userId);
         ChatsEntity chat = findChatByChatId(chatId);
 
         MessagesEntity messagesEntity = new MessagesEntity();
-        messagesEntity.setMessage(messageDto.getMessage().getText());
+        messagesEntity.setMessage(text);
         messagesEntity.setChatsByChatId(chat);
         messagesEntity.setUsersBySenderId(user);
         messagesEntity.setMessagesStatus(MessagesStatus.CREATED.name());

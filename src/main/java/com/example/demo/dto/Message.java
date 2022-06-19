@@ -14,7 +14,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {
+
+    @JsonProperty("id")
+    @NotBlank
+    private String messageId;
+
     @JsonProperty("text")
     @NotBlank
     private String text;
+
+    @JsonProperty("time")
+    @NotBlank
+    private String timeCreated;
 }

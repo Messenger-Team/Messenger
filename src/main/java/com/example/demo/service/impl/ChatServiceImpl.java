@@ -62,11 +62,10 @@ public class ChatServiceImpl implements ChatService {
     public ChatJoinResponse joinUserToChat(String chatId, UserNameDto userNameDto) {
         String userName = userNameDto.getUserName();
         UsersEntity user;
-        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserName(userName);
+        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserId(userName);
         if (userEntity.isEmpty()) {
             user = new UsersEntity();
-            user.setUserName(userName);
-            user.setUserId(UUID.randomUUID().toString());
+            user.setUserId(userName);
             user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
             user.setUserTimezone(DEFAULT_TIMEZONE);
             user = usersEntityRepository.save(user);
@@ -166,8 +165,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsersDto createChatDto){
-        Optional<UsersEntity> userEntityFirst = usersEntityRepository.findUsersEntityByUserName(createChatDto.getUserNameFirst());
-        Optional<UsersEntity> userEntitySecond = usersEntityRepository.findUsersEntityByUserName(createChatDto.getUserNameSecond());
+        Optional<UsersEntity> userEntityFirst = usersEntityRepository.findUsersEntityByUserId(createChatDto.getUserNameFirst());
+        Optional<UsersEntity> userEntitySecond = usersEntityRepository.findUsersEntityByUserId(createChatDto.getUserNameSecond());
         if ((!userEntityFirst.isEmpty())&&(!userEntitySecond.isEmpty())) {
             UsersEntity userFirst = userEntityFirst.get();
             UsersEntity userSecond = userEntitySecond.get();
@@ -196,11 +195,10 @@ public class ChatServiceImpl implements ChatService {
 
     private ChatsUsersEntity AddUserToChat(ChatsEntity chatsEntity, String userName){
         UsersEntity user;
-        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserName(userName);
+        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserId(userName);
         if (userEntity.isEmpty()) {
             user = new UsersEntity();
-            user.setUserName(userName);
-            user.setUserId(UUID.randomUUID().toString());
+            user.setUserId(userName);
             user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
             user.setUserTimezone(DEFAULT_TIMEZONE);
             user = usersEntityRepository.save(user);

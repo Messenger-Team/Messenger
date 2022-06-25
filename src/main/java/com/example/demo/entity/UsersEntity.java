@@ -35,12 +35,6 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "user_name")
-    public String getUserName() {
-        return userName;
-    }
-
-    @Basic
     @Column(name = "created_at")
     public Timestamp getCreatedAt() {
         return createdAt;

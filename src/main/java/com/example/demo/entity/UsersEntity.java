@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 public class UsersEntity {
 
     private String userId;
-    private String userName;
     private Timestamp createdAt;
     private String userTimezone;
     private Collection<ChatsUsersEntity> chatsUsersByUserId;

@@ -19,12 +19,4 @@ public class ChatCreateWithTwoUsersResponse {
     @JsonProperty("chat_id")
     @NotBlank
     private String chatId;
-
-    @JsonProperty("user_first_id")
-    @NotBlank
-    private String userFirstId;
-
-    @JsonProperty("user_second_id")
-    @NotBlank
-    private String userSecondId;
 }

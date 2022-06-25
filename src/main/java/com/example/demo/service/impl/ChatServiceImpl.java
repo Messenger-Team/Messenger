@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -165,6 +166,22 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsersDto createChatDto){
+        Optional<UsersEntity> userEntityFirst = usersEntityRepository.findUsersEntityByUserName(createChatDto.getUserNameFirst());
+        Optional<UsersEntity> userEntitySecond = usersEntityRepository.findUsersEntityByUserName(createChatDto.getUserNameSecond());
+        if ((!userEntityFirst.isEmpty())&&(!userEntitySecond.isEmpty())) {
+            UsersEntity userFirst = userEntityFirst.get();
+            UsersEntity userSecond = userEntitySecond.get();
+            Collection<ChatsUsersEntity>userFirstChats = userFirst.getChatsUsersByUserId();
+            Collection<ChatsUsersEntity>userSecondChats = userSecond.getChatsUsersByUserId();
+            for (ChatsUsersEntity chatUser:userFirstChats) {
+                chatUser.getChatsByChatId();
+                for(ChatsUsersEntity chatUserSec:userSecondChats){
+                    if(chatUserSec.getChatsByChatId().getChatId().equals(chatUser.getChatsByChatId().getChatId())){
+                        return new ChatCreateWithTwoUsersResponse(chatUserSec.getChatsByChatId().getChatId());
+                    }
+                }
+            }
+        }
         String chatId = UUID.randomUUID().toString();
         ChatsEntity chatsEntity = new ChatsEntity();
         chatsEntity.setChatName(createChatDto.getChatName());
@@ -174,7 +191,7 @@ public class ChatServiceImpl implements ChatService {
         ChatsUsersEntity usersEntityFirst = AddUserToChat(chatsEntityCreated, createChatDto.getUserNameFirst());
         ChatsUsersEntity usersEntitySecond = AddUserToChat(chatsEntityCreated, createChatDto.getUserNameSecond());
 
-        return new ChatCreateWithTwoUsersResponse(chatsEntityCreated.getChatId(), usersEntityFirst.getUsersByUserId().getUserId(), usersEntitySecond.getUsersByUserId().getUserId());
+        return new ChatCreateWithTwoUsersResponse(chatsEntityCreated.getChatId());
     }
 
     private ChatsUsersEntity AddUserToChat(ChatsEntity chatsEntity, String userName){

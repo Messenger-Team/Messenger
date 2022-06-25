@@ -173,7 +173,6 @@ public class ChatServiceImpl implements ChatService {
             Collection<ChatsUsersEntity>userFirstChats = userFirst.getChatsUsersByUserId();
             Collection<ChatsUsersEntity>userSecondChats = userSecond.getChatsUsersByUserId();
             for (ChatsUsersEntity chatUser:userFirstChats) {
-                chatUser.getChatsByChatId();
                 for(ChatsUsersEntity chatUserSec:userSecondChats){
                     if(chatUserSec.getChatsByChatId().getChatId().equals(chatUser.getChatsByChatId().getChatId())){
                         return new ChatCreateWithTwoUsersResponse(chatUserSec.getChatsByChatId().getChatId());

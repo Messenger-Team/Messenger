@@ -33,7 +33,7 @@ public class MessengerApplicationTests {
         Assertions.assertNotNull(response);
     }
 
-    @Test
+    /*@Test
     public void messengerMessagesDefaultTest() {
         CreateChatWithTwoUsersDto dto = new CreateChatWithTwoUsersDto(CHAT_NAME, USER_NAME_1, USER_NAME_2);
         ChatCreateWithTwoUsersResponse response = service.createChatWithNameAndTwoUsers(dto);
@@ -53,6 +53,6 @@ public class MessengerApplicationTests {
         Object[] savedMessages = chatGetMessagesResponse.getMessages().stream().map(Message::getText).toArray();
 
         Assertions.assertArrayEquals(sentMessages, savedMessages);
-    }
+    }*/
 
 }

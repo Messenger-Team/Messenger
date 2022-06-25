@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 public class UsersEntity {
 
     private String userId;
-    private String userName;
     private Timestamp createdAt;
     private String userTimezone;
     private Collection<ChatsUsersEntity> chatsUsersByUserId;
@@ -32,12 +31,6 @@ public class UsersEntity {
     @Column(name = "user_id")
     public String getUserId() {
         return userId;
-    }
-
-    @Basic
-    @Column(name = "user_name")
-    public String getUserName() {
-        return userName;
     }
 
     @Basic

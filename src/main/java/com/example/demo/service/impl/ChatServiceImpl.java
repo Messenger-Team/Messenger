@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -61,11 +62,10 @@ public class ChatServiceImpl implements ChatService {
     public ChatJoinResponse joinUserToChat(String chatId, UserNameDto userNameDto) {
         String userName = userNameDto.getUserName();
         UsersEntity user;
-        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserName(userName);
+        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserId(userName);
         if (userEntity.isEmpty()) {
             user = new UsersEntity();
-            user.setUserName(userName);
-            user.setUserId(UUID.randomUUID().toString());
+            user.setUserId(userName);
             user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
             user.setUserTimezone(DEFAULT_TIMEZONE);
             user = usersEntityRepository.save(user);
@@ -113,7 +113,7 @@ public class ChatServiceImpl implements ChatService {
         // cache after
         List<Message> messages = messagesEntities.stream()
                 .map(m -> new Message(
-                         m.getUsersBySenderId().getUserName() , m.getMessage() , m.getCreatedAt().toString()))
+                         m.getUsersBySenderId().getUserId() , m.getMessage() , m.getCreatedAt().toString()))
                 .collect(Collectors.toList());
 
         Cursor iterator = null;
@@ -165,6 +165,21 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public ChatCreateWithTwoUsersResponse createChatWithNameAndTwoUsers(CreateChatWithTwoUsersDto createChatDto){
+        Optional<UsersEntity> userEntityFirst = usersEntityRepository.findUsersEntityByUserId(createChatDto.getUserNameFirst());
+        Optional<UsersEntity> userEntitySecond = usersEntityRepository.findUsersEntityByUserId(createChatDto.getUserNameSecond());
+        if ((!userEntityFirst.isEmpty())&&(!userEntitySecond.isEmpty())) {
+            UsersEntity userFirst = userEntityFirst.get();
+            UsersEntity userSecond = userEntitySecond.get();
+            Collection<ChatsUsersEntity>userFirstChats = userFirst.getChatsUsersByUserId();
+            Collection<ChatsUsersEntity>userSecondChats = userSecond.getChatsUsersByUserId();
+            for (ChatsUsersEntity chatUser:userFirstChats) {
+                for(ChatsUsersEntity chatUserSec:userSecondChats){
+                    if(chatUserSec.getChatsByChatId().getChatId().equals(chatUser.getChatsByChatId().getChatId())){
+                        return new ChatCreateWithTwoUsersResponse(chatUserSec.getChatsByChatId().getChatId());
+                    }
+                }
+            }
+        }
         String chatId = UUID.randomUUID().toString();
         ChatsEntity chatsEntity = new ChatsEntity();
         chatsEntity.setChatName(createChatDto.getChatName());
@@ -174,16 +189,15 @@ public class ChatServiceImpl implements ChatService {
         ChatsUsersEntity usersEntityFirst = AddUserToChat(chatsEntityCreated, createChatDto.getUserNameFirst());
         ChatsUsersEntity usersEntitySecond = AddUserToChat(chatsEntityCreated, createChatDto.getUserNameSecond());
 
-        return new ChatCreateWithTwoUsersResponse(chatsEntityCreated.getChatId(), usersEntityFirst.getUsersByUserId().getUserId(), usersEntitySecond.getUsersByUserId().getUserId());
+        return new ChatCreateWithTwoUsersResponse(chatsEntityCreated.getChatId());
     }
 
     private ChatsUsersEntity AddUserToChat(ChatsEntity chatsEntity, String userName){
         UsersEntity user;
-        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserName(userName);
+        Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserId(userName);
         if (userEntity.isEmpty()) {
             user = new UsersEntity();
-            user.setUserName(userName);
-            user.setUserId(UUID.randomUUID().toString());
+            user.setUserId(userName);
             user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
             user.setUserTimezone(DEFAULT_TIMEZONE);
             user = usersEntityRepository.save(user);

@@ -46,7 +46,7 @@ public class ChatController {
     }
 
     /**
-     * POST /v1/chats/default создать чат с именем chat_name и добавить юзеров с именами user_name_first и user_name_second
+     * POST /v1/chats/default получить чат с именем chat_name и добавить юзеров с именами user_name_first и user_name_second
      *
      * @param createChatWithTwoUsersDto (required)
      * @return action was completed successfully (status code 201) or * &#x60;bad-parameters&#x60; -

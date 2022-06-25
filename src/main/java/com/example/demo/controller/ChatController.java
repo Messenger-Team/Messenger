@@ -98,7 +98,7 @@ public class ChatController {
     }
 
     /**
-     * POST /v1/chats/{chat_id}/{user_id}/messages
+     * POST /v1/chats/{chat_id}/messages
      * отправить в чат chat_id сообщение message
      *
      * @param chatId  (required)

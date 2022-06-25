@@ -2,12 +2,8 @@ package com.example.demo.entity;
 
 import java.sql.Timestamp;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,7 +41,7 @@ public class UsersEntity {
         return userTimezone;
     }
 
-    @OneToMany(mappedBy = "usersByUserId")
+    @OneToMany(mappedBy = "usersByUserId", fetch = FetchType.EAGER)
     public Collection<ChatsUsersEntity> getChatsUsersByUserId() {
         return chatsUsersByUserId;
     }

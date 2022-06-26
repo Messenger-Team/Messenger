@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.service.ChatService;
 
+@CrossOrigin
 @RestController
 @AllArgsConstructor
 @RequestMapping("/v1/chats")
@@ -33,7 +34,7 @@ public class ChatController {
      * неправильный формат входных параметров  (status code 400) or unexpected server error (status
      * code 200)
      */
-    @CrossOrigin(origins = "http://localhost:8000")
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<ChatCreateResponse> createChatWithName(
             @RequestBody @Valid CreateChatDto createChatDto) {
@@ -48,7 +49,7 @@ public class ChatController {
      * неправильный формат входных параметров  (status code 400) or unexpected server error (status
      * code 200)
      */
-    @CrossOrigin(origins = "http://localhost:8000")
+    @CrossOrigin
     @PostMapping("/default")
     public ResponseEntity<ChatCreateWithTwoUsersResponse> createChatWithNameAnd2Users(
             @RequestBody @Valid CreateChatWithTwoUsersDto createChatWithTwoUsersDto) {
@@ -65,7 +66,7 @@ public class ChatController {
      *         or * &#x60;chat-not-found&#x60; - указанный чат не существует  (status code 404)
      *         or unexpected server error (status code 200)
      */
-    @CrossOrigin(origins = "http://localhost:8000")
+    @CrossOrigin
     @PostMapping ("/{chat_id}/users")
     public ResponseEntity<ChatJoinResponse> joinUserToChat(
             @PathVariable("chat_id") String chatId,
@@ -85,7 +86,7 @@ public class ChatController {
      *         or * &#x60;chat-not-found&#x60; - указанный чат не существует  (status code 404)
      *         or unexpected server error (status code 200)
      */
-    @CrossOrigin(origins = "http://localhost:8000")
+    @CrossOrigin
     @GetMapping ("/{chat_id}/messages")
     public ResponseEntity<ChatGetMessagesResponse> getMessagesByChatId(
             @PathVariable("chat_id") String chatId,
@@ -107,7 +108,7 @@ public class ChatController {
      *         or * &#x60;chat-not-found&#x60; - указанный чат не существует * &#x60;user-not-found&#x60; - в указанном чате нет указанного пользователя  (status code 404)
      *         or unexpected server error (status code 200)
      */
-    @CrossOrigin(origins = "http://localhost:8000")
+    @CrossOrigin
     @PostMapping ("/{chat_id}/messages")
     public ResponseEntity<ChatSendMessageResponse> sendMessageToChat(
             @PathVariable("chat_id") String chatId,

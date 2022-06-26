@@ -25,6 +25,6 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag korartemik/tutor-project-messenger-back
+      run: docker build . --file Dockerfile --tag kawwik/tutor-project-messenger-back
     - name: Push to Docker Hub
-      run: docker push korartemik/tutor-project-messenger-back
+      run: docker push kawwik/tutor-project-messenger-back

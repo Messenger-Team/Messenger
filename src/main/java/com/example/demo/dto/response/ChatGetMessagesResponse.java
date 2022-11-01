@@ -17,7 +17,7 @@ import com.example.demo.dto.Message;
 @Data
 public class ChatGetMessagesResponse {
 
-    @NotNull //todo do need this?
+    @NotNull
     @NonNull
     @JsonProperty("messages")
     private List<Message> messages;

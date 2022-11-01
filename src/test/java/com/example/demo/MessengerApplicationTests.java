@@ -15,8 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class MessengerApplicationTests {
 
-    public static final String CHAT_NAME = "chat_1";
-    public static final String USER_NAME_1 = "user_1";
+    public static final String CHAT_NAME = "chat_First";
+    public static final String USER_NAME_1 = "user_First";
     public static final String USER_NAME_2 = "user_2";
     public static final String MESSAGE_1 = "hello";
     public static final String MESSAGE_2 = "goodbye";

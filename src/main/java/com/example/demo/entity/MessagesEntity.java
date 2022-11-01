@@ -15,46 +15,46 @@ import lombok.Data;
 @Table(name = "messages")
 public class MessagesEntity {
 
-    private String messageId;
-    private String message;
-    private Timestamp createdAt;
-    private String messagesStatus;
-    private UsersEntity usersBySenderId;
-    private ChatsEntity chatsByChatId;
+    private String _messageId;
+    private String _message;
+    private Timestamp _createdAt;
+    private String _messagesStatus;
+    private UsersEntity _usersBySenderId;
+    private ChatsEntity _chatsByChatId;
 
     @Id
     @Column(name = "message_id")
-    public String getMessageId() {
-        return messageId;
+    public String get_messageId() {
+        return _messageId;
     }
 
     @Basic
     @Column(name = "message")
-    public String getMessage() {
-        return message;
+    public String get_message() {
+        return _message;
     }
 
     @Basic
     @Column(name = "created_at")
-    public Timestamp getCreatedAt() {
-        return createdAt;
+    public Timestamp get_createdAt() {
+        return _createdAt;
     }
 
     @Basic
     @Column(name = "messages_status")
-    public String getMessagesStatus() {
-        return messagesStatus;
+    public String get_messagesStatus() {
+        return _messagesStatus;
     }
 
     @ManyToOne
     @JoinColumn(name = "sender_id", referencedColumnName = "user_id", nullable = false)
-    public UsersEntity getUsersBySenderId() {
-        return usersBySenderId;
+    public UsersEntity get_usersBySenderId() {
+        return _usersBySenderId;
     }
 
     @ManyToOne
     @JoinColumn(name = "chat_id", referencedColumnName = "chat_id", nullable = false)
-    public ChatsEntity getChatsByChatId() {
-        return chatsByChatId;
+    public ChatsEntity get_chatsByChatId() {
+        return _chatsByChatId;
     }
 }

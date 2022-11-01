@@ -15,7 +15,6 @@ import com.example.demo.service.SearchMessagesService;
 @Slf4j
 public class SearchMessagesServiceImpl implements SearchMessagesService {
 
-
     @Override
     public GetHistoryResponse startSearchForMessages(SearchMessageDto searchMessageDto) {
         return new GetHistoryResponse();

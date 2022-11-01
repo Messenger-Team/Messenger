@@ -24,7 +24,7 @@ import com.example.demo.service.ChatService;
 @Slf4j
 public class ChatController {
 
-    private final ChatService chatService;
+    private final ChatService _chatService;
 
     /**
      * POST /v1/chats создать чат с именем chat_name
@@ -38,7 +38,7 @@ public class ChatController {
     @PostMapping
     public ResponseEntity<ChatCreateResponse> createChatWithName(
             @RequestBody @Valid CreateChatDto createChatDto) {
-        return new ResponseEntity<>(chatService.createChatWithName(createChatDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(_chatService.createChatWithName(createChatDto), HttpStatus.CREATED);
     }
 
     /**
@@ -53,7 +53,7 @@ public class ChatController {
     @PostMapping("/default")
     public ResponseEntity<ChatCreateWithTwoUsersResponse> createChatWithNameAnd2Users(
             @RequestBody @Valid CreateChatWithTwoUsersDto createChatWithTwoUsersDto) {
-        return new ResponseEntity<>(chatService.createChatWithNameAndTwoUsers(createChatWithTwoUsersDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(_chatService.createChatWithNameAndTwoUsers(createChatWithTwoUsersDto), HttpStatus.CREATED);
     }
     /**
      * POST /v1/chats/{chat_id}/users
@@ -71,7 +71,7 @@ public class ChatController {
     public ResponseEntity<ChatJoinResponse> joinUserToChat(
             @PathVariable("chat_id") String chatId,
             @RequestBody @Valid UserNameDto userName) {
-        return new ResponseEntity<>(chatService.joinUserToChat(chatId, userName), HttpStatus.CREATED);
+        return new ResponseEntity<>(_chatService.joinUserToChat(chatId, userName), HttpStatus.CREATED);
     }
 
     /**
@@ -114,6 +114,6 @@ public class ChatController {
             @PathVariable("chat_id") String chatId,
             @RequestParam(value = "user_id") @NotNull @Valid String userId,
             @RequestParam(value = "text") @NotNull @Valid String text) {
-        return new ResponseEntity<>(chatService.sendMessageToChat(chatId, userId, text), HttpStatus.CREATED);
+        return new ResponseEntity<>(_chatService.sendMessageToChat(chatId, userId, text), HttpStatus.CREATED);
     }
 }

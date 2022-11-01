@@ -75,7 +75,7 @@ public class ChatHistoryController {
     @GetMapping("/{task_id}/messages")
     public ResponseEntity<HistoryGetMessagesResponse> getMessagesListFromTask(
             @PathVariable("task_id") String taskId,
-            @NotNull @Min(1) @Max(100) @Valid @RequestParam(value = "limit") Integer limit,
+            @NotNull @Min(1) @Max(200) @Valid @RequestParam(value = "limit") Integer limit,
             @Valid Cursor from) {
         return new ResponseEntity<>(_searchMessagesService.getMessagesListFromTask(taskId, limit, from),
                 HttpStatus.OK);

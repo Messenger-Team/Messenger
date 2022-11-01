@@ -46,15 +46,15 @@ public class ChatServiceImpl implements ChatService {
     public ChatCreateResponse createChatWithName(CreateChatDto createChatDto) {
         ChatsEntity chatsEntity = chatsEntityRepository.save(generateChatsEntityByName(createChatDto));
 
-        return new ChatCreateResponse(chatsEntity.getChatId());
+        return new ChatCreateResponse(chatsEntity.get_chatId());
     }
 
     private ChatsEntity generateChatsEntityByName(CreateChatDto createChatDto) {
         String chatId = UUID.randomUUID().toString();
         ChatsEntity chatsEntity = new ChatsEntity();
-        chatsEntity.setChatName(createChatDto.getChatName());
-        chatsEntity.setChatId(chatId);
-        chatsEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
+        chatsEntity.set_chatName(createChatDto.getChatName());
+        chatsEntity.set_chatId(chatId);
+        chatsEntity.set_createdAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
         return chatsEntity;
     }
 
@@ -65,9 +65,9 @@ public class ChatServiceImpl implements ChatService {
         Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserId(userName);
         if (userEntity.isEmpty()) {
             user = new UsersEntity();
-            user.setUserId(userName);
-            user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
-            user.setUserTimezone(DEFAULT_TIMEZONE);
+            user.set_userId(userName);
+            user.set_createdAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
+            user.set_userTimezone(DEFAULT_TIMEZONE);
             user = usersEntityRepository.save(user);
         } else {
             user = userEntity.get();
@@ -76,13 +76,13 @@ public class ChatServiceImpl implements ChatService {
         ChatsEntity chat = findChatByChatId(chatId);
 
         ChatsUsersEntity chatsUsersEntity = new ChatsUsersEntity();
-        chatsUsersEntity.setUsersByUserId(user);
-        chatsUsersEntity.setChatsByChatId(chat);
-        chatsUsersEntity.setIsPresent(true);
+        chatsUsersEntity.set_usersByUserId(user);
+        chatsUsersEntity.set_chatsByChatId(chat);
+        chatsUsersEntity.set_isPresent(true);
 
         ChatsUsersEntity created = chatsUsersEntityRepository.save(chatsUsersEntity);
 
-        return new ChatJoinResponse(created.getUsersByUserId().getUserId());
+        return new ChatJoinResponse(created.get_usersByUserId().get_userId());
     }
 
     private List<MessagesEntity> repositoryMessagesRequest(ChatsEntity chat, Integer limit, String from) {
@@ -113,12 +113,12 @@ public class ChatServiceImpl implements ChatService {
         // cache after
         List<Message> messages = messagesEntities.stream()
                 .map(m -> new Message(
-                         m.getUsersBySenderId().getUserId() , m.getMessage() , m.getCreatedAt().toString()))
+                         m.get_usersBySenderId().get_userId() , m.get_message() , m.get_createdAt().toString()))
                 .collect(Collectors.toList());
 
         Cursor iterator = null;
         if (!messages.isEmpty()) {
-            iterator = new Cursor(messagesEntities.get(messagesEntities.size() - 1).getCreatedAt().toString());
+            iterator = new Cursor(messagesEntities.get(messagesEntities.size() - 1).get_createdAt().toString());
         }
 
         ChatGetMessagesResponse response = new ChatGetMessagesResponse(messages, iterator);
@@ -134,17 +134,17 @@ public class ChatServiceImpl implements ChatService {
         ChatsEntity chat = findChatByChatId(chatId);
 
         MessagesEntity messagesEntity = new MessagesEntity();
-        messagesEntity.setMessage(text);
-        messagesEntity.setChatsByChatId(chat);
-        messagesEntity.setUsersBySenderId(user);
-        messagesEntity.setMessagesStatus(MessagesStatus.CREATED.name());
-        messagesEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
-        messagesEntity.setMessageId(UUID.randomUUID().toString());
+        messagesEntity.set_message(text);
+        messagesEntity.set_chatsByChatId(chat);
+        messagesEntity.set_usersBySenderId(user);
+        messagesEntity.set_messagesStatus(MessagesStatus.CREATED.name());
+        messagesEntity.set_createdAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
+        messagesEntity.set_messageId(UUID.randomUUID().toString());
 
         MessagesEntity createdMessage = messagesEntityRepository.save(messagesEntity);
 
         chatCacheService.evictByChatId(chatId);
-        return new ChatSendMessageResponse(createdMessage.getMessageId());
+        return new ChatSendMessageResponse(createdMessage.get_messageId());
     }
 
     private ChatsEntity findChatByChatId(String chatId) {
@@ -172,12 +172,12 @@ public class ChatServiceImpl implements ChatService {
         if ((!userEntityFirst.isEmpty())&&(!userEntitySecond.isEmpty())) {
             UsersEntity userFirst = userEntityFirst.get();
             UsersEntity userSecond = userEntitySecond.get();
-            Collection<ChatsUsersEntity>userFirstChats = userFirst.getChatsUsersByUserId();
-            Collection<ChatsUsersEntity>userSecondChats = userSecond.getChatsUsersByUserId();
+            Collection<ChatsUsersEntity>userFirstChats = userFirst.get_chatsUsersByUserId();
+            Collection<ChatsUsersEntity>userSecondChats = userSecond.get_chatsUsersByUserId();
             for (ChatsUsersEntity chatUser:userFirstChats) {
                 for(ChatsUsersEntity chatUserSec:userSecondChats){
-                    if(chatUserSec.getChatsByChatId().getChatId().equals(chatUser.getChatsByChatId().getChatId())){
-                        return new ChatCreateWithTwoUsersResponse(chatUserSec.getChatsByChatId().getChatId());
+                    if(chatUserSec.get_chatsByChatId().get_chatId().equals(chatUser.get_chatsByChatId().get_chatId())){
+                        return new ChatCreateWithTwoUsersResponse(chatUserSec.get_chatsByChatId().get_chatId());
                     }
                 }
             }
@@ -185,14 +185,14 @@ public class ChatServiceImpl implements ChatService {
 
         String chatId = UUID.randomUUID().toString();
         ChatsEntity chatsEntity = new ChatsEntity();
-        chatsEntity.setChatName(createChatDto.getChatName());
-        chatsEntity.setChatId(chatId);
-        chatsEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
+        chatsEntity.set_chatName(createChatDto.getChatName());
+        chatsEntity.set_chatId(chatId);
+        chatsEntity.set_createdAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
         ChatsEntity chatsEntityCreated = chatsEntityRepository.save(chatsEntity);
         ChatsUsersEntity usersEntityFirst = AddUserToChat(chatsEntityCreated, createChatDto.getUserNameFirst());
         ChatsUsersEntity usersEntitySecond = AddUserToChat(chatsEntityCreated, createChatDto.getUserNameSecond());
 
-        return new ChatCreateWithTwoUsersResponse(chatsEntityCreated.getChatId());
+        return new ChatCreateWithTwoUsersResponse(chatsEntityCreated.get_chatId());
     }
 
     private ChatsUsersEntity AddUserToChat(ChatsEntity chatsEntity, String userName){
@@ -200,18 +200,18 @@ public class ChatServiceImpl implements ChatService {
         Optional<UsersEntity> userEntity = usersEntityRepository.findUsersEntityByUserId(userName);
         if (userEntity.isEmpty()) {
             user = new UsersEntity();
-            user.setUserId(userName);
-            user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
-            user.setUserTimezone(DEFAULT_TIMEZONE);
+            user.set_userId(userName);
+            user.set_createdAt(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));
+            user.set_userTimezone(DEFAULT_TIMEZONE);
             user = usersEntityRepository.save(user);
         } else {
             user = userEntity.get();
         }
 
         ChatsUsersEntity chatsUsersFirstEntity = new ChatsUsersEntity();
-        chatsUsersFirstEntity.setUsersByUserId(user);
-        chatsUsersFirstEntity.setChatsByChatId(chatsEntity);
-        chatsUsersFirstEntity.setIsPresent(true);
+        chatsUsersFirstEntity.set_usersByUserId(user);
+        chatsUsersFirstEntity.set_chatsByChatId(chatsEntity);
+        chatsUsersFirstEntity.set_isPresent(true);
 
         return chatsUsersEntityRepository.save(chatsUsersFirstEntity);
     }

@@ -15,37 +15,37 @@ import lombok.Data;
 @Table(name = "chats")
 public class ChatsEntity {
 
-    private String chatId;
-    private String chatName;
-    private Timestamp createdAt;
-    private Collection<ChatsUsersEntity> chatsUsersByChatId;
-    private Collection<MessagesEntity> messagesByChatId;
+    private String _chatId;
+    private String _chatName;
+    private Timestamp _createdAt;
+    private Collection<ChatsUsersEntity> _chatsUsersByChatId;
+    private Collection<MessagesEntity> _messagesByChatId;
 
     @Id
     @Column(name = "chat_id")
-    public String getChatId() {
-        return chatId;
+    public String get_chatId() {
+        return _chatId;
     }
 
     @Basic
     @Column(name = "chat_name")
-    public String getChatName() {
-        return chatName;
+    public String get_chatName() {
+        return _chatName;
     }
 
     @Basic
     @Column(name = "created_at")
-    public Timestamp getCreatedAt() {
-        return createdAt;
+    public Timestamp get_createdAt() {
+        return _createdAt;
     }
 
     @OneToMany(mappedBy = "chatsByChatId")
-    public Collection<ChatsUsersEntity> getChatsUsersByChatId() {
-        return chatsUsersByChatId;
+    public Collection<ChatsUsersEntity> get_chatsUsersByChatId() {
+        return _chatsUsersByChatId;
     }
 
     @OneToMany(mappedBy = "chatsByChatId")
-    public Collection<MessagesEntity> getMessagesByChatId() {
-        return messagesByChatId;
+    public Collection<MessagesEntity> get_messagesByChatId() {
+        return _messagesByChatId;
     }
 }

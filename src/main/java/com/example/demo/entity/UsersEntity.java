@@ -17,37 +17,37 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class UsersEntity {
 
-    private String userId;
-    private Timestamp createdAt;
-    private String userTimezone;
-    private Collection<ChatsUsersEntity> chatsUsersByUserId;
-    private Collection<MessagesEntity> messagesByUserId;
+    private String _userId;
+    private Timestamp _createdAt;
+    private String _userTimezone;
+    private Collection<ChatsUsersEntity> _chatsUsersByUserId;
+    private Collection<MessagesEntity> _messagesByUserId;
 
     @Id
     @Column(name = "user_id")
-    public String getUserId() {
-        return userId;
+    public String get_userId() {
+        return _userId;
     }
 
     @Basic
     @Column(name = "created_at")
-    public Timestamp getCreatedAt() {
-        return createdAt;
+    public Timestamp get_createdAt() {
+        return _createdAt;
     }
 
     @Basic
     @Column(name = "user_timezone")
-    public String getUserTimezone() {
-        return userTimezone;
+    public String get_userTimezone() {
+        return _userTimezone;
     }
 
     @OneToMany(mappedBy = "usersByUserId", fetch = FetchType.EAGER)
-    public Collection<ChatsUsersEntity> getChatsUsersByUserId() {
-        return chatsUsersByUserId;
+    public Collection<ChatsUsersEntity> get_chatsUsersByUserId() {
+        return _chatsUsersByUserId;
     }
 
     @OneToMany(mappedBy = "usersBySenderId")
-    public Collection<MessagesEntity> getMessagesByUserId() {
-        return messagesByUserId;
+    public Collection<MessagesEntity> get_messagesByUserId() {
+        return _messagesByUserId;
     }
 }

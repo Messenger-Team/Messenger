@@ -28,7 +28,7 @@ import com.example.demo.service.SearchMessagesService;
 @Validated
 public class ChatHistoryController {
 
-    private final SearchMessagesService searchMessagesService;
+    private final SearchMessagesService _searchMessagesService;
 
     /**
      * POST /v1/chats/search Запустить процесс поиска по истории сообщений для чатов, в которых есть
@@ -42,7 +42,7 @@ public class ChatHistoryController {
     @PostMapping()
     public ResponseEntity<GetHistoryResponse> startSearchForMessages(
             @Valid @RequestBody SearchMessageDto searchMessageDto) {
-        return new ResponseEntity<>(searchMessagesService.startSearchForMessages(searchMessageDto),
+        return new ResponseEntity<>(_searchMessagesService.startSearchForMessages(searchMessageDto),
                 HttpStatus.CREATED);
 
     }
@@ -57,7 +57,7 @@ public class ChatHistoryController {
      */
     @GetMapping("/status/{task_id}")
     public ResponseEntity<GetTaskResponse> checkTaskStatus(@PathVariable("task_id") String taskId) {
-        return new ResponseEntity<>(searchMessagesService.checkTaskStatus(taskId), HttpStatus.OK);
+        return new ResponseEntity<>(_searchMessagesService.checkTaskStatus(taskId), HttpStatus.OK);
     }
 
     /**
@@ -77,7 +77,7 @@ public class ChatHistoryController {
             @PathVariable("task_id") String taskId,
             @NotNull @Min(1) @Max(100) @Valid @RequestParam(value = "limit") Integer limit,
             @Valid Cursor from) {
-        return new ResponseEntity<>(searchMessagesService.getMessagesListFromTask(taskId, limit, from),
+        return new ResponseEntity<>(_searchMessagesService.getMessagesListFromTask(taskId, limit, from),
                 HttpStatus.OK);
     }
 }

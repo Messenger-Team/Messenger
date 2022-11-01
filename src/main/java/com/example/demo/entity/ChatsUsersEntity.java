@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import lombok.Data;
+
 import lombok.Setter;
 
 @Entity
@@ -17,33 +17,33 @@ import lombok.Setter;
 @Table(name = "chats_users")
 public class ChatsUsersEntity {
 
-    private Long chatsUsersId;
-    private Boolean isPresent;
-    private ChatsEntity chatsByChatId;
-    private UsersEntity usersByUserId;
+    private Long _chatsUsersId;
+    private Boolean _isPresent;
+    private ChatsEntity _chatsByChatId;
+    private UsersEntity _usersByUserId;
 
     @Id
     @Column(name = "chats_users_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getChatsUsersId() {
-        return chatsUsersId;
+    public Long get_chatsUsersId() {
+        return _chatsUsersId;
     }
 
     @Basic
     @Column(name = "is_present")
-    public Boolean getIsPresent() {
-        return isPresent;
+    public Boolean get_isPresent() {
+        return _isPresent;
     }
 
     @ManyToOne
     @JoinColumn(name = "chat_id", referencedColumnName = "chat_id", nullable = false)
-    public ChatsEntity getChatsByChatId() {
-        return chatsByChatId;
+    public ChatsEntity get_chatsByChatId() {
+        return _chatsByChatId;
     }
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    public UsersEntity getUsersByUserId() {
-        return usersByUserId;
+    public UsersEntity get_usersByUserId() {
+        return _usersByUserId;
     }
 }

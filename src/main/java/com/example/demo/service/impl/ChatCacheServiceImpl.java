@@ -21,7 +21,7 @@ public class ChatCacheServiceImpl implements ChatCacheService {
     @Override
     public Optional<ChatGetMessagesResponse> getMessagesResponseCacheByKey(ChatIdKeyFromCache requestData) {
         Optional<Cache<ChatIdKeyFromCache, ChatGetMessagesResponse>> messagesResponseCache = Optional.ofNullable(
-                chatIdCache.getIfPresent(requestData.getChatId()));
+                chatIdCache.getIfPresent(requestData.get_chatId()));
         if (messagesResponseCache.isPresent()) {
             return Optional.ofNullable(messagesResponseCache.get().getIfPresent(requestData));
         }
@@ -32,7 +32,7 @@ public class ChatCacheServiceImpl implements ChatCacheService {
     @Override
     public void messagesResponseCachePutData(ChatIdKeyFromCache requestData, ChatGetMessagesResponse response) {
         Optional<Cache<ChatIdKeyFromCache, ChatGetMessagesResponse>> messagesResponseCache = Optional.ofNullable(
-                chatIdCache.getIfPresent(requestData.getChatId()));
+                chatIdCache.getIfPresent(requestData.get_chatId()));
 
         if (messagesResponseCache.isPresent()) {
             messagesResponseCache.get().put(requestData, response);
@@ -43,7 +43,7 @@ public class ChatCacheServiceImpl implements ChatCacheService {
                     .build();
 
             newMessagesResponseCache.put(requestData, response);
-            chatIdCache.put(requestData.getChatId(), newMessagesResponseCache);
+            chatIdCache.put(requestData.get_chatId(), newMessagesResponseCache);
         }
     }
 

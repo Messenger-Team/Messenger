@@ -42,9 +42,6 @@ public class MessengerApplicationTests {
         String firstUserId = dto.getUserNameFirst();
         String secondUserId = dto.getUserNameSecond();
 
-        MessageDto messageDto1 = new MessageDto(new Message(ID, MESSAGE_1, ""));
-        MessageDto messageDto2 = new MessageDto(new Message(ID, MESSAGE_2, ""));
-
         service.sendMessageToChat(chatId, firstUserId, MESSAGE_1);
         service.sendMessageToChat(chatId, secondUserId, MESSAGE_2);
 
@@ -53,5 +50,30 @@ public class MessengerApplicationTests {
         Object[] savedMessages = chatGetMessagesResponse.getMessages().stream().map(Message::getText).toArray();
 
         Assertions.assertArrayEquals(sentMessages, savedMessages);
+    }
+
+    @Test
+    public void sendMessageToChatTest() {
+        String chatId = setupChat();
+        ChatGetMessagesResponse chatGetMessagesResponse = service.getMessagesByChatId(chatId, 100, "");
+        String[] sentMessages = new String[]{MESSAGE_1, MESSAGE_2};
+        Object[] savedMessages = chatGetMessagesResponse.getMessages().stream().map(Message::getText).toArray();
+
+        Assertions.assertArrayEquals(sentMessages, savedMessages);
+    }
+
+
+    public String setupChat() {
+        CreateChatWithTwoUsersDto dto = new CreateChatWithTwoUsersDto(CHAT_NAME, USER_NAME_1, USER_NAME_2);
+        ChatCreateWithTwoUsersResponse response = service.createChatWithNameAndTwoUsers(dto);
+
+        String chatId = response.getChatId();
+        String firstUserId = dto.getUserNameFirst();
+        String secondUserId = dto.getUserNameSecond();
+
+        service.sendMessageToChat(chatId, firstUserId, MESSAGE_1);
+        service.sendMessageToChat(chatId, secondUserId, MESSAGE_2);
+
+        return chatId;
     }
 }

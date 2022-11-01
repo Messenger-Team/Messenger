@@ -152,6 +152,7 @@ public class ChatServiceImpl implements ChatService {
         if (chat.isEmpty()) {
             throw new NotFoundCrudException("No chat found with id " + chatId);
         }
+
         return chat.get();
     }
 
@@ -160,6 +161,7 @@ public class ChatServiceImpl implements ChatService {
         if (user.isEmpty()) {
             throw new NotFoundCrudException("No user found with id " + userId);
         }
+
         return user.get();
     }
 
@@ -180,6 +182,7 @@ public class ChatServiceImpl implements ChatService {
                 }
             }
         }
+
         String chatId = UUID.randomUUID().toString();
         ChatsEntity chatsEntity = new ChatsEntity();
         chatsEntity.setChatName(createChatDto.getChatName());

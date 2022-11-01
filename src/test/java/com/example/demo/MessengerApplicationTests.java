@@ -54,5 +54,4 @@ public class MessengerApplicationTests {
 
         Assertions.assertArrayEquals(sentMessages, savedMessages);
     }
-
 }

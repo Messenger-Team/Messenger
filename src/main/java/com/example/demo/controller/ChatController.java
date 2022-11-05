@@ -93,7 +93,7 @@ public class ChatController {
             @RequestParam(value = "limit") @NotNull @Min(1) @Max(1000) Integer limit,
             @RequestParam Optional<String> from) {
         log.info("------------ id: {}, limit: {}, from: {}", chatId, limit, from.orElse(null));
-        return new ResponseEntity<>(chatService.getMessagesByChatId(chatId, limit, from.orElse(null)), HttpStatus.OK);
+        return new ResponseEntity<>(_chatService.getMessagesByChatId(chatId, limit, from.orElse(null)), HttpStatus.OK);
     }
 
     /**
